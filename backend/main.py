@@ -8,8 +8,10 @@ import time
 import pyttsx3
 import threading
 import sqlite3
-from "./ble.py" import BLE
+from ble import BLE, CHAR_UUID_W, CHAR_UUID_I
 import struct
+from enum import Enum
+import logging
 
 app = FastAPI()
 
@@ -22,7 +24,7 @@ app.add_middleware(
 
 # --- global variables for ESPs ---
 sensors = [
-            {"name": "coachP_wl", "char_uuid": CHAR_UUID_W},
+            # {"name": "coachP_wl", "char_uuid": CHAR_UUID_W},
             # {"name": "coachP_wr", "char_uuid": CHAR_UUID_W},
             {"name": "coachP_il", "char_uuid": CHAR_UUID_I},
             # {"name": "coachP_ir", "char_uuid": CHAR_UUID_I}
@@ -31,18 +33,18 @@ sensors = [
 class EspRole(Enum):
     WEIGHT_L = 0
     WEIGHT_R = 0
-    IMU_L = 1
+    IMU_L = 0
     IMU_R = 1
 
 ESPs = []
 
 # --- 模擬 BLE 張力與 IMU 三軸資料 --- 
 async def read_ble_data():
-    # force = round(random.uniform(8.0, 15.0), 2)
+    force = round(random.uniform(8.0, 15.0), 2)
     # imu = random.random() > 0.5 
-    force_raw = await ESPs[EspRole.WEIGHT_L].getRaw()
-    force     = struct.unpack('f', force_raw)[0]
-    imu_raw   = await ESPs[EspRole.IMU_L].getRaw()
+    # force_raw = await ESPs[EspRole.WEIGHT_L.value].getRaw()
+    # force     = struct.unpack('f', force_raw)[0]
+    imu_raw   = await ESPs[EspRole.IMU_L.value].getRaw()
     imu       = bool(imu_raw[0])
     return {"force": force, "imu": imu}
 
@@ -237,22 +239,15 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
 def read_root():
     return {"msg": "FastAPI is working!"}
 
-<<<<<<< HEAD
-# WebSocket Endpoint
-=======
-
 
 # --- WebSocket Endpoint ---
->>>>>>> main
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     print("WebSocket connection established")
 
     await websocket.accept()
 
-<<<<<<< HEAD
     print("WebSocket accepted")
-=======
 
     # --- ble setup --- 
     logging.basicConfig(
@@ -270,11 +265,11 @@ async def websocket_endpoint(websocket: WebSocket):
     while not all(esp.connected for esp in ESPs):
         await asyncio.sleep(0.1)
 
+    print("ESPs connected")
     # now sensors are connected.
     # check connection status with ESPs(index).connected
 
 
->>>>>>> main
     voice = PriorityVoicePlayer(rate=230)
     # voice.set_websocket(websocket)
 
