@@ -1,0 +1,26 @@
+.flappy-container {
+    text-align: center;
+    background-color: #faf5f0; /* 主色調 */
+    min-height: 100vh;
+    padding-top: 30px;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .flappy-container h2 {
+    color: #6c9ba1;
+    margin-bottom: 20px;
+  }
+  
+  canvas {
+    border: 3px solid #89aeca;
+    border-radius: 10px;
+    background-color: #b8d2e3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .flappy-container p {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #333;
+  }
+  

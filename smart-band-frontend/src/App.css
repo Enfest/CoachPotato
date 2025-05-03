@@ -1,0 +1,48 @@
+:root {
+  --bg-color: #faf5f0;
+  --panel-bg: #b8d2e3;
+  --primary: #89aeca;
+  --secondary: #6c9ba1;
+  --accent: #92a466;
+  --text-color: #333;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.app {
+  padding: 30px;
+  text-align: center;
+}
+
+.title {
+  color: var(--primary);
+  margin-bottom: 40px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+
+.confirm-button {
+  margin-top: 40px;
+  padding: 12px 20px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
+  background-color: var(--secondary);
+}

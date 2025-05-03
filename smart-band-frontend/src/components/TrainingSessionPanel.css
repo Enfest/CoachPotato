@@ -1,0 +1,74 @@
+.training-panel {
+    background-color: var(--panel-bg);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 650px;
+    margin: 30px auto;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  
+  .training-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+    align-items: center;
+  }
+  
+  .training-settings label {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .training-settings input {
+    width: 60px;
+    padding: 4px;
+    font-size: 16px;
+    text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .training-status {
+    margin-top: 16px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .spoken {
+    margin-top: 8px;
+    font-weight: bold;
+    color: #92a466;
+    font-size: 16px;
+  }
+  
+  .chart-area {
+    margin-top: 20px;
+  }
+  
+  .training-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+  
+  .training-buttons button {
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: #6c9ba1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .training-buttons button:hover {
+    background-color: #558289;
+  }
+  

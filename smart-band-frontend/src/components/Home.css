@@ -1,0 +1,32 @@
+.home-container {
+    text-align: center;
+    padding: 60px;
+    background-color: #faf5f0;
+    min-height: 100vh;
+  }
+  
+  .title {
+    color: var(--primary);
+    margin-bottom: 40px;
+  }
+  
+  .button-group {
+    margin-top: 40px;
+  }
+  
+  .mode-button {
+    margin: 20px;
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: #89aeca;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .mode-button:hover {
+    background-color: #6c9ba1;
+  }
+  
