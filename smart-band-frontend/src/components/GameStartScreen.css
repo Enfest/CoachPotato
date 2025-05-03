@@ -1,0 +1,37 @@
+.game-start-screen {
+    padding: 30px;
+    background-color: #faf5f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .game-start-screen h2 {
+    color: #6c9ba1;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+  
+  .game-start-screen p {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 25px;
+  }
+  
+  .game-start-screen button {
+    background-color: #92a466;
+    color: white;
+    font-size: 18px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .game-start-screen button:hover {
+    background-color: #6c9ba1;
+  }
+  

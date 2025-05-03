@@ -1,4 +1,5 @@
-# voice_player.py
+# priority_voice_player.py
+
 import pyttsx3
 import threading
 import time
@@ -17,13 +18,15 @@ class PriorityVoicePlayer:
     def speak(self, text: str, priority: int = 10):
         with self.lock:
             if self.engine.isBusy():
-                if priority < self.current_priority:
-                    self.engine.stop()
+                if self.current_priority is None or priority < self.current_priority:
+                    self.engine.stop()  # 中止當前語音
                     self.voice_queue.put((priority, text))
+                    self.current_priority = priority
                 else:
-                    pass  # discard
+                    return  # discard 較低或相同優先權語音
             else:
                 self.voice_queue.put((priority, text))
+                self.current_priority = priority
 
     def _worker(self):
         while True:

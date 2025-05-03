@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import FlappyBirdGame from "./components/FlappyBirdGame"; // 剛剛新增的
 import Home from "./components/Home";
 import React, { useState, useEffect } from "react";
 import TrainingMain from "./components/TrainingMain";
+import GameMain from "./components/GameMain";
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -28,7 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/training" element={<TrainingMain socket={socket} setSocket={setSocket}/>} />
-        <Route path="/game" element={<FlappyBirdGame />} />
+        <Route path="/game" element={<GameMain socket={socket} />} />
       </Routes>
     </Router>
   );

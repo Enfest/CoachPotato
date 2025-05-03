@@ -1,0 +1,27 @@
+.game-canvas-panel {
+    text-align: center;
+  }
+  
+  canvas {
+    background-color: #b8d2e3;
+    border: 3px solid #89aeca;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .game-canvas-panel p {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #333;
+  }
+
+  .game-canvas-container {
+    text-align: center;
+  }
+  
+  .game-canvas {
+    border: 3px solid #b8d2e3;
+    background-color: #faf5f0;
+    margin-top: 10px;
+  }
+  

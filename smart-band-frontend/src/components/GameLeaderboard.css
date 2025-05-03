@@ -1,0 +1,29 @@
+.leaderboard {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .leaderboard h2, .leaderboard h3 {
+    color: #6c9ba1;
+  }
+  
+  .leaderboard ol {
+    padding-left: 0;
+    list-style: none;
+    font-size: 20px;
+  }
+  
+  .leaderboard li {
+    margin: 8px 0;
+  }
+  
+  .leaderboard button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #92a466;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
