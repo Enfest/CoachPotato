@@ -128,6 +128,8 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
         })
         print(f"拉起 {pull_time} 秒")
 
+        imu_set = False
+
         t = 0
         count = 0
         for i in range(ticks):
@@ -142,7 +144,8 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
 
             if t <= pull_time:
                 phase = "pull"
-                if force >= baseline * 0.95:
+                target_force = baseline * (t / pull_time)
+                if force >= target_force * 0.95:
                     force_valid = 1
                 else:
                     # voice.speak("請加速拉起", priority=8)
@@ -155,6 +158,7 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
 
             elif t <= pull_time + hold_time:
                 phase = "hold"
+                target_force = baseline
                 if i == int(pull_time / tick_interval) + 1:
                     # voice.speak(f"請保持", priority=5)
                     await websocket.send_json({
@@ -171,7 +175,7 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
                     })
                     print("還沒休息繼續用力")
                     if count % 10 == 3:
-                        threading.Thread(target=speak("用力"), daemon=True).start()
+                        threading.Thread(target=speak("用力",), daemon=True).start()
                 elif force > baseline * 1.05:
                     # voice.speak("請不要再用力了", priority=8)
                     await websocket.send_json({
@@ -216,7 +220,19 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
                 "force_valid": force_valid,
                 "phase": phase,
                 "reps": rep,
+                "ideal_force": target_force,
+                "time": t,
             })
+            if imu:
+                imu_set = True
+            if imu_set and count % 10 == 8:
+                # voice.speak("請不要動膝蓋", priority=6)
+                await websocket.send_json({
+                    "say": "請不要動膝蓋"
+                })
+                print("請不要動膝蓋")
+                imu_set = False
+                threading.Thread(target=speak("別動"), daemon=True).start()
             print(f"Phase: {phase}, Force: {force}, IMU: {imu}, Valid: {force_valid}")
 
             await asyncio.sleep(tick_interval)

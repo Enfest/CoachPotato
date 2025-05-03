@@ -34,8 +34,10 @@ function TrainingSessionPanel({ socket, baseline, onBack, onComplete }) {
         const newEntry = {
           time: new Date().toLocaleTimeString().split(" ")[0].slice(-8),
           force: data.force,
-          outOfRange: data.force_ok,
+          outOfRange: !data.force_valid,
           imu: data.imu,
+          ideal_force: data.ideal_force,
+          time: data.time,
 
         };
         setForceData((prev) => [...prev.slice(-99), newEntry]);
@@ -128,7 +130,7 @@ function TrainingSessionPanel({ socket, baseline, onBack, onComplete }) {
                         stroke={entry.outOfRange ? "#f44336" : "orange"}
                         strokeWidth={1}
                         label={{
-                          value: entry.imu ? "膝蓋動" : "力道錯誤",
+                        //   value: entry.imu ? "膝蓋動" : "力道錯誤",
                           position: "top",
                           fontSize: 10,
                           fill: "#555"
