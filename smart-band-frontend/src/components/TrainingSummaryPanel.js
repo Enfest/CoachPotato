@@ -13,9 +13,9 @@ import {
 } from "recharts";
 
 function TrainingSummaryPanel({ data, onNextSet, onBackHome, onViewHistory }) {
-  const correctCount = data.filter(d => !d.outOfRange && !d.kneeMoved).length;
+  const correctCount = data.filter(d => !d.outOfRange && !d.imu).length;
   const errorCount = data.filter(d => d.outOfRange).length;
-  const kneeCount = data.filter(d => d.kneeMoved).length;
+  const kneeCount = data.filter(d => d.imu).length;
   const navigate = useNavigate();
   const handleBackHome = () => {
     onBackHome();
