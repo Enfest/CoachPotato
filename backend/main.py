@@ -6,6 +6,7 @@ from motion_monitor import MotionMonitor
 import random
 import time
 from "./ble.py" import BLE
+import struct
 
 app = FastAPI()
 
@@ -37,9 +38,10 @@ async def read_ble_data():
     # await asyncio.sleep(0.005)
     # force = round(random.uniform(8.0, 15.0), 2)
     # imu = round(random.uniform(0.2, 0.5) if random.random() > 0.1 else random.uniform(1.2, 1.5), 2)
-    force = await ESPs[EspRole.WEIGHT_L].getRaw()
-    imu_raw =   await ESPs[EspRole.IMU_L].getRaw()
-    imu = bool(imu_raw[0])
+    force_raw = await ESPs[EspRole.WEIGHT_L].getRaw()
+    force     = struct.unpack('f', force_raw)[0]
+    imu_raw   = await ESPs[EspRole.IMU_L].getRaw()
+    imu       = bool(imu_raw[0])
     return {"force": force, "imu": imu}
 
 
