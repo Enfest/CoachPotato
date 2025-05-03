@@ -38,7 +38,8 @@ async def read_ble_data():
     # force = round(random.uniform(8.0, 15.0), 2)
     # imu = round(random.uniform(0.2, 0.5) if random.random() > 0.1 else random.uniform(1.2, 1.5), 2)
     force = await ESPs[EspRole.WEIGHT_L].getRaw()
-    imu =   await ESPs[EspRole.IMU_L].getRaw()
+    imu_raw =   await ESPs[EspRole.IMU_L].getRaw()
+    imu = bool(imu_raw[0])
     return {"force": force, "imu": imu}
 
 
