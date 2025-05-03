@@ -24,9 +24,9 @@ app.add_middleware(
 
 # --- global variables for ESPs ---
 sensors = [
-            # {"name": "coachP_wl", "char_uuid": CHAR_UUID_W},
+            {"name": "coachP_wl", "char_uuid": CHAR_UUID_W},
             # {"name": "coachP_wr", "char_uuid": CHAR_UUID_W},
-            {"name": "coachP_il", "char_uuid": CHAR_UUID_I},
+            # {"name": "coachP_il", "char_uuid": CHAR_UUID_I},
             # {"name": "coachP_ir", "char_uuid": CHAR_UUID_I}
         ]
 
@@ -40,12 +40,12 @@ ESPs = []
 
 # --- 模擬 BLE 張力與 IMU 三軸資料 --- 
 async def read_ble_data():
-    force = round(random.uniform(8.0, 15.0), 2)
-    # imu = random.random() > 0.5 
-    # force_raw = await ESPs[EspRole.WEIGHT_L.value].getRaw()
-    # force     = struct.unpack('f', force_raw)[0]
-    imu_raw   = await ESPs[EspRole.IMU_L.value].getRaw()
-    imu       = bool(imu_raw[0])
+    # force = round(random.uniform(8.0, 15.0), 2)
+    imu = random.random() > 0.5 
+    force_raw = await ESPs[EspRole.WEIGHT_L.value].getRaw()
+    force     = struct.unpack('f', force_raw)[0]
+    # imu_raw   = await ESPs[EspRole.IMU_L.value].getRaw()
+    #imu       = bool(imu_raw[0])
     return {"force": force, "imu": imu}
 
 # speak function
