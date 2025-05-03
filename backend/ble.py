@@ -5,7 +5,6 @@ import logging
 from typing import Iterable
 from bleak import BleakClient, BleakScanner
 
-lock = asyncio.Lock()
 CHAR_UUID_W = "cfbacaaa-0e61-4feb-9601-edb8f5def59c"
 CHAR_UUID_I = "5bb7d416-9fdc-4931-a8e1-4b8c884b2216"
 
@@ -41,6 +40,7 @@ class BLE:
 
                     def disconnected_callback(client):
                         logging.info("Disconnected callback called!")
+                        self.connected = False
                         disconnected_event.set()
 
 
@@ -78,8 +78,9 @@ class BLE:
 
 
 
-
+# this is an example of how to use this class.
 async def main(sensors):
+    lock = asyncio.Lock()
     ESPs = [BLE(esp["name"], esp["char_uuid"]) for esp in sensors]
 
     # await asyncio.gather(*(esp.connect(lock) for esp in ESPs))

@@ -5,6 +5,7 @@ from voice_player import PriorityVoicePlayer
 from motion_monitor import MotionMonitor
 import random
 import time
+from "./ble.py" import BLE
 
 app = FastAPI()
 
@@ -15,11 +16,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# --- global variables for ESPs ---
+sensors = [
+            {"name": "coachP_wl", "char_uuid": CHAR_UUID_W},
+            # {"name": "coachP_wr", "char_uuid": CHAR_UUID_W},
+            {"name": "coachP_il", "char_uuid": CHAR_UUID_I},
+            # {"name": "coachP_ir", "char_uuid": CHAR_UUID_I}
+        ]
+
+class EspRole(Enum):
+    WEIGHT_L = 0
+    WEIGHT_R = 0
+    IMU_L = 1
+    IMU_R = 1
+
+ESPs = []
+
 # --- 模擬 BLE 張力與 IMU 三軸資料 --- TODO: change to real BLE data
 async def read_ble_data():
     # await asyncio.sleep(0.005)
-    force = round(random.uniform(8.0, 15.0), 2)
-    imu = round(random.uniform(0.2, 0.5) if random.random() > 0.1 else random.uniform(1.2, 1.5), 2)
+    # force = round(random.uniform(8.0, 15.0), 2)
+    # imu = round(random.uniform(0.2, 0.5) if random.random() > 0.1 else random.uniform(1.2, 1.5), 2)
+    force = await ESPs[EspRole.WEIGHT_L].getRaw()
+    imu =   await ESPs[EspRole.IMU_L].getRaw()
     return {"force": force, "imu": imu}
 
 
@@ -131,10 +150,34 @@ async def handle_training_session(websocket, voice: PriorityVoicePlayer,
     await websocket.send_json({"status": "done", "total_reps": rep})
 
 
+
+
 # --- WebSocket Endpoint ---
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+
+
+    # --- ble setup --- 
+    logging.basicConfig(
+        level=logging.WARNING,
+        format="%(asctime)-15s %(name)-8s %(levelname)s: %(message)s",
+    )
+    lock = asyncio.Lock()
+    global sensors
+    global ESPs
+    ESPs = [BLE(esp["name"], esp["char_uuid"]) for esp in sensors]
+
+    connect_tasks = [asyncio.create_task(esp.connect(lock)) for esp in ESPs]
+
+    # Wait for all devices to report they're connected
+    while not all(esp.connected for esp in ESPs):
+        await asyncio.sleep(0.1)
+
+    # now sensors are connected.
+    # check connection status with ESPs(index).connected
+
+
     voice = PriorityVoicePlayer(rate=230)
 
     while True:
