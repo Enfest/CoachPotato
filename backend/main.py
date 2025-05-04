@@ -33,20 +33,20 @@ sensors = [
 class EspRole(Enum):
     WEIGHT_L = 0
     WEIGHT_R = 0
-    IMU_L = 0
+    IMU_L = 1
     IMU_R = 1
 
 ESPs = []
 
 # --- 模擬 BLE 張力與 IMU 三軸資料 --- 
 async def read_ble_data():
-    # force = round(random.uniform(8.0, 15.0), 2)
+    # force = round(random.uniform(8.0, 100.0), 2)
     imu = random.random() > 0.5 
     force_raw = await ESPs[EspRole.WEIGHT_L.value].getRaw()
     force     = struct.unpack('f', force_raw)[0]
     # imu_raw   = await ESPs[EspRole.IMU_L.value].getRaw()
-    #imu       = bool(imu_raw[0])
-    return {"force": force, "imu": imu}
+    # imu       = bool(imu_raw[0])
+    return {"force": force, "imu": False}
 
 # speak function
 def speak(text):
@@ -344,6 +344,12 @@ async def websocket_endpoint(websocket: WebSocket):
         elif data.get("action") == "stop_game_mode":
             print("結束遊戲模式")
             game_mode_running = False
+            score = data.get("score", 0)
+            print(f"接收遊戲分數：{score}")
+            db_cursor.execute("INSERT INTO leaderboard (score) VALUES (?)", (score,))
+            db_conn.commit()
+
+            leaderboard[:] = load_leaderboard_from_db()
 
         elif data.get("action") == "submit_score":
             score = data.get("score", 0)
