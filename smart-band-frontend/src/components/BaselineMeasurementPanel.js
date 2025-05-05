@@ -12,7 +12,7 @@ function BaselineMeasurementPanel({ socket, onBaselineReceived, onBack }) {
       setMessage("WebSocket 尚未連線");
       return;
     }
-
+    console.log("開始測量最大張力");
     setIsMeasuring(true);
     setMaxValues([]);
     setMessage("倒數 5 秒，請準備...");

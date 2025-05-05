@@ -40,6 +40,7 @@ class BLE:
 
                     def disconnected_callback(client):
                         logging.info("Disconnected callback called!")
+                        print("Disconnected from "+self.name)
                         self.connected = False
                         disconnected_event.set()
 
